@@ -1,0 +1,9 @@
+{
+  "databaseConfig": {
+        "url": "jdbc:mysql://localhost:3306/storedProc?autoReconnect=true",
+        "driver_class": "com.mysql.jdbc.Driver",
+        "max_pool_size": 12,
+        "user": "root",
+        "password": "asdf123"
+  }
+}
