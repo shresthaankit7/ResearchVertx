@@ -3,3 +3,7 @@ target/
 .idea
 .vertx
 .iml
+.idea/.name
+.vertx/
+research.iml
+target/generated-sources/
