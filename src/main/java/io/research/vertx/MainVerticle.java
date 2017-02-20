@@ -4,6 +4,7 @@ import io.research.vertx.io.research.vertx.utils.Holder;
 import io.research.vertx.io.research.vertx.utils.SumClass;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
+import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
@@ -29,6 +30,7 @@ public class MainVerticle extends AbstractVerticle {
         HttpServer httpServer = vertx.createHttpServer();
 
         httpServer.requestHandler(request -> {
+            System.out.println("Request At thread:::" + Thread.currentThread());
             HttpServerResponse response = request.response();
             SumClass sumClass = new SumClass();
 
@@ -36,10 +38,10 @@ public class MainVerticle extends AbstractVerticle {
                 JsonObject procNumber = new JsonObject();
                 procNumber.put("procID",i);
 
-                eventBus.send("ABC", procNumber, handler -> {
+                eventBus.send("ABC", procNumber,new DeliveryOptions().setSendTimeout(900 * 1000), handler -> {
                     if (handler.succeeded()) {
                         JsonObject resultSet = new JsonObject(handler.result().body().toString());
-                        sumClass.add(1);
+                        sumClass.add(Integer.parseInt(resultSet.getString("Value")));
                         if(sumClass.count == 4){
 
                             response.putHeader("content-type", "text/plain");
@@ -51,6 +53,6 @@ public class MainVerticle extends AbstractVerticle {
                 });
             }
         });
-        httpServer.listen(8080);
+        httpServer.listen(8082);
     }
 }

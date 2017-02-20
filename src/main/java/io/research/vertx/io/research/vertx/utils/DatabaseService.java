@@ -17,7 +17,6 @@ public class DatabaseService {
                 config);
             execute(jdbcClient,storedProcCall,resultSetHandler);
 
-        System.out.println("Executing query!");
     }
 
     public void execute(JDBCClient client,String query,Handler<JsonObject> done){
