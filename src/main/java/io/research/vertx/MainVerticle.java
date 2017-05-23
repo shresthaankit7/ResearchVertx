@@ -9,7 +9,6 @@ import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 /**
@@ -30,31 +29,6 @@ public class MainVerticle extends AbstractVerticle {
 
 
         HttpServer httpServer = vertx.createHttpServer();
-
-//        httpServer.requestHandler(request -> {
-//            System.out.println("Request At thread:::" + Thread.currentThread());
-//            HttpServerResponse response = request.response();
-//            SumClass sumClass = new SumClass();
-//
-//            for(int i = 1; i <= 4; i++) {
-//                JsonObject procNumber = new JsonObject();
-//                procNumber.put("procID",i);
-//
-//                eventBus.send("ABC", procNumber,new DeliveryOptions().setSendTimeout(900 * 1000), handler -> {
-//                    if (handler.succeeded()) {
-//                        JsonObject resultSet = new JsonObject(handler.result().body().toString());
-//                        sumClass.add(Integer.parseInt(resultSet.getString("Value")));
-//                        if(sumClass.count == 4){
-//
-//                            response.putHeader("content-type", "text/plain");
-//                            response.end("Sum:" + sumClass.getSum());
-//                        }
-//                    } else {
-//                        System.out.println("Error Getting response.");
-//                    }
-//                });
-//            }
-//        });
 
 
         Router router = Router.router(vertx);
