@@ -50,12 +50,12 @@ public class MainVerticle extends AbstractVerticle {
                         System.out.println("RESULT:::" + resultSet);
 
                         response.putHeader("content-type", "text/plain");
-                        response.end("Sum:" + resultSet.getValue("sum").toString());
+                        response.end("Sum:" + resultSet.getValue("Value").toString());
+                        response.close();
                     } else {
                         System.out.println("Error Getting response.");
                     }
                 });
-
         });
 
         httpServer.requestHandler(router::accept).listen(8080);

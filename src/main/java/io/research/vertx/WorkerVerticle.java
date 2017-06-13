@@ -2,10 +2,8 @@ package io.research.vertx;
 
 import io.research.vertx.io.research.vertx.utils.DatabaseService;
 import io.research.vertx.io.research.vertx.utils.Holder;
-import io.research.vertx.io.research.vertx.utils.SumClass;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.json.JsonObject;
 
 /**
  * Created by ankshrestha on 2/10/17.
@@ -19,30 +17,22 @@ public class WorkerVerticle extends AbstractVerticle {
 
         DatabaseService databaseService = new DatabaseService();
 
+        System.out.println("WORKER THRED::" + Thread.currentThread() + "WORKER CONTEXT::" + vertx.getOrCreateContext());
 
         eventBus.consumer("ABC",message -> {
-            System.out.println("EventBUS Thread:::" + Thread.currentThread());
+            System.out.println("EventBUS Thread:::" + Thread.currentThread() + "\nEB Context::" + vertx.getOrCreateContext());
 
-            JsonObject inputBody = new JsonObject(message.body().toString());
-            String input = inputBody.getString("procID");
-
-            SumClass sum = new SumClass();
-            for(int i = 1; i <= Integer.parseInt(input); i++) {
-                System.out.println("FOR LOOP THREAD::" + Thread.currentThread().toString());
-                String query = "call " + "Proc_" + Integer.toString(i) + "();";
+                System.out.println("FOR LOOP THREAD::" + Thread.currentThread().toString() + "\n"
+                                + "LOOP CONTEXT:::" + vertx.getOrCreateContext().toString());
+                String query = "call Proc_1();";
                 databaseService.query(h -> {
                     if (h != null) {
-                        System.out.println("Executing Thread::" + Thread.currentThread().toString());
+                        System.out.println("Executing Thread::" + Thread.currentThread().toString() + "\n"
+                                + "CONTEXT:::" + vertx.getOrCreateContext() + "\n\n");
                         System.out.println("RESULT GOT ::" + h);
-                        sum.add(Integer.parseInt(h.getValue("Value").toString()));
-                        count++;
-
-                        if (count == Integer.parseInt(input))
-                            message.reply(new JsonObject().put("sum", sum.getSum()));
-
+                        message.reply(h);
                     }
                 }, query);
-            }
         });
 
     }
