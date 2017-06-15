@@ -9,7 +9,7 @@ DELIMITER $$
 USE `storedProc`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Proc_1`()
 BEGIN
-	DO SLEEP(1);
+	DO SLEEP(ROUND((RAND() * (10-5))+5));
 	SELECT 1 as `output`;
 END$$
 
