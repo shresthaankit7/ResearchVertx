@@ -32,22 +32,16 @@ public class MainVerticle extends AbstractVerticle {
 
 
         Router router = Router.router(vertx);
-        router.route("/person/:input").handler(routingContext -> {
+        router.route("/person/").handler(routingContext -> {
 
             HttpServerResponse response = routingContext.response();
 
-            String input = routingContext.request().getParam("input");
-            System.out.println("INPUT ::" + input);
-
             JsonObject procNumber = new JsonObject();
-            procNumber.put("procID",input);
-
-            SumClass sumClass = new SumClass();
 
             eventBus.send("ABC", procNumber,new DeliveryOptions().setSendTimeout(900 * 1000), handler -> {
                     if (handler.succeeded()) {
                         JsonObject resultSet = new JsonObject(handler.result().body().toString());
-                        System.out.println("RESULT:::" + resultSet);
+                        System.out.println("RESULT:::" + resultSet + "\n\n");
 
                         response.putHeader("content-type", "text/plain");
                         response.end("Sum:" + resultSet.getValue("Value").toString());

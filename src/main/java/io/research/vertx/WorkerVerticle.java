@@ -20,15 +20,15 @@ public class WorkerVerticle extends AbstractVerticle {
         System.out.println("WORKER THRED::" + Thread.currentThread() + "WORKER CONTEXT::" + vertx.getOrCreateContext());
 
         eventBus.consumer("ABC",message -> {
-            System.out.println("EventBUS Thread:::" + Thread.currentThread() + "\nEB Context::" + vertx.getOrCreateContext());
+            System.out.println("Worker Thread:::" + Thread.currentThread() + "\nWorker Context::" + vertx.getOrCreateContext());
 
-                System.out.println("FOR LOOP THREAD::" + Thread.currentThread().toString() + "\n"
-                                + "LOOP CONTEXT:::" + vertx.getOrCreateContext().toString());
+                System.out.println("FOR LOOP THREAD Worker::" + Thread.currentThread().toString() + "\n"
+                                + "LOOP CONTEXT Worker:::" + vertx.getOrCreateContext().toString());
                 String query = "call Proc_1();";
                 databaseService.query(h -> {
                     if (h != null) {
-                        System.out.println("Executing Thread::" + Thread.currentThread().toString() + "\n"
-                                + "CONTEXT:::" + vertx.getOrCreateContext() + "\n\n");
+                        System.out.println("Executing Thread worker::" + Thread.currentThread().toString() + "\n"
+                                + "CONTEXT:::" + vertx.getOrCreateContext());
                         System.out.println("RESULT GOT ::" + h);
                         message.reply(h);
                     }
