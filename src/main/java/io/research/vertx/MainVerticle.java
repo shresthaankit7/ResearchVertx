@@ -30,10 +30,6 @@ public class MainVerticle extends AbstractVerticle {
         System.out.println("Config::" + Holder.getInstance().getConfig());
 
         EventBus eventBus = Holder.getInstance().getVertx().eventBus();
-
-        vertx.deployVerticle("io.research.vertx.WorkerVerticle",new DeploymentOptions().setWorker(true).setInstances(40));
-
-
         HttpServer httpServer = vertx.createHttpServer();
 
 
@@ -53,7 +49,6 @@ public class MainVerticle extends AbstractVerticle {
 
             String query = "call Proc_1();";
 
-//            HttpClientOptions options = new HttpClientOptions().setKeepAlive(false);
             HttpClientOptions options = new HttpClientOptions().setSsl(false).setVerifyHost(false).setTrustAll(true);
             HttpClient client = vertx.createHttpClient();
             client.getNow(8080, "localhost", "/GrailsAngular/person/index", response1 -> {
@@ -63,18 +58,6 @@ public class MainVerticle extends AbstractVerticle {
                 response.end("Sum:");
                 response.close();
             });
-//            eventBus.send("ABC", procNumber,new DeliveryOptions().setSendTimeout(900 * 1000), handler -> {
-//                    if (handler.succeeded()) {
-//                        JsonObject resultSet = new JsonObject(handler.result().body().toString());
-//                        System.out.println("RESULT:::" + resultSet);
-//
-//                        response.putHeader("content-type", "text/plain");
-//                        response.end("Sum:" + resultSet.getValue("Value").toString());
-//                        response.close();
-//                    } else {
-//                        System.out.println("Error Getting response." + handler.cause());
-//                    }
-//                });
 
         });
 
